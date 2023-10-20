@@ -1,0 +1,566 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище SlipperProductionModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Box">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AmountSlippers" Type="int" />
+          <Property Name="ID_Type" Type="int" />
+          <Property Name="ID_Stock" Type="int" />
+          <Property Name="ID_Employee" Type="int" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="20" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="20" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="PassportDetails" Type="nchar" MaxLength="11" />
+          <Property Name="ID_MachineTool" Type="int" />
+          <Property Name="ID_Position" Type="int" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MachineTool">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProductionYear" Type="int" />
+        </EntityType>
+        <EntityType Name="Plan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" />
+          <Property Name="AmountColorSlippes" Type="int" />
+          <Property Name="AmountOrdinarySlippes" Type="int" />
+          <Property Name="DoneOrNot" Type="bit" />
+          <Property Name="ID_Employee" Type="int" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" />
+          <Property Name="Salary" Type="decimal" Precision="7" Scale="0" />
+        </EntityType>
+        <EntityType Name="Slipper">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Size" Type="int" />
+          <Property Name="CostPrice" Type="decimal" Precision="3" Scale="0" />
+          <Property Name="ID_Type" Type="int" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_BOX_EMPLOYEE">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Box" Type="Self.Box" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Box">
+              <PropertyRef Name="ID_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOX_STOCK">
+          <End Role="Stock" Type="Self.Stock" Multiplicity="0..1" />
+          <End Role="Box" Type="Self.Box" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Box">
+              <PropertyRef Name="ID_Stock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOX_TYPE">
+          <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
+          <End Role="Box" Type="Self.Box" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Box">
+              <PropertyRef Name="ID_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMPLOYEE_MACHINE_TOOL">
+          <End Role="MachineTool" Type="Self.MachineTool" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MachineTool">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="ID_MachineTool" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMPLOYEE_POSITION">
+          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="ID_Position" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PLAN_EMPLOYEE">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Plan" Type="Self.Plan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Plan">
+              <PropertyRef Name="ID_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SLIPPER_TYPE">
+          <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
+          <End Role="Slipper" Type="Self.Slipper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Slipper">
+              <PropertyRef Name="ID_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище SlipperProductionModelContainer">
+          <EntitySet Name="Box" EntityType="Self.Box" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MachineTool" EntityType="Self.MachineTool" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Plan" EntityType="Self.Plan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Slipper" EntityType="Self.Slipper" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type" EntityType="Self.Type" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BOX_EMPLOYEE" Association="Self.FK_BOX_EMPLOYEE">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Box" EntitySet="Box" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOX_STOCK" Association="Self.FK_BOX_STOCK">
+            <End Role="Stock" EntitySet="Stock" />
+            <End Role="Box" EntitySet="Box" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOX_TYPE" Association="Self.FK_BOX_TYPE">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Box" EntitySet="Box" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMPLOYEE_MACHINE_TOOL" Association="Self.FK_EMPLOYEE_MACHINE_TOOL">
+            <End Role="MachineTool" EntitySet="MachineTool" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMPLOYEE_POSITION" Association="Self.FK_EMPLOYEE_POSITION">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PLAN_EMPLOYEE" Association="Self.FK_PLAN_EMPLOYEE">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Plan" EntitySet="Plan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SLIPPER_TYPE" Association="Self.FK_SLIPPER_TYPE">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Slipper" EntitySet="Slipper" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SlipperProductionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Box">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AmountSlippers" Type="Int32" />
+          <Property Name="ID_Type" Type="Int32" />
+          <Property Name="ID_Stock" Type="Int32" />
+          <Property Name="ID_Employee" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_BOX_EMPLOYEE" FromRole="Box" ToRole="Employee" />
+          <NavigationProperty Name="Stock" Relationship="Self.FK_BOX_STOCK" FromRole="Box" ToRole="Stock" />
+          <NavigationProperty Name="Type" Relationship="Self.FK_BOX_TYPE" FromRole="Box" ToRole="Type" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Patronymic" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="PassportDetails" Type="String" MaxLength="11" FixedLength="true" Unicode="true" />
+          <Property Name="ID_MachineTool" Type="Int32" />
+          <Property Name="ID_Position" Type="Int32" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Box" Relationship="Self.FK_BOX_EMPLOYEE" FromRole="Employee" ToRole="Box" />
+          <NavigationProperty Name="MachineTool" Relationship="Self.FK_EMPLOYEE_MACHINE_TOOL" FromRole="Employee" ToRole="MachineTool" />
+          <NavigationProperty Name="Position" Relationship="Self.FK_EMPLOYEE_POSITION" FromRole="Employee" ToRole="Position" />
+          <NavigationProperty Name="Plan" Relationship="Self.FK_PLAN_EMPLOYEE" FromRole="Employee" ToRole="Plan" />
+        </EntityType>
+        <EntityType Name="MachineTool">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductionYear" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_EMPLOYEE_MACHINE_TOOL" FromRole="MachineTool" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Plan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="AmountColorSlippes" Type="Int32" />
+          <Property Name="AmountOrdinarySlippes" Type="Int32" />
+          <Property Name="DoneOrNot" Type="Boolean" />
+          <Property Name="ID_Employee" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_PLAN_EMPLOYEE" FromRole="Plan" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Salary" Type="Decimal" Precision="7" Scale="0" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_EMPLOYEE_POSITION" FromRole="Position" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Slipper">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Size" Type="Int32" />
+          <Property Name="CostPrice" Type="Decimal" Precision="3" Scale="0" />
+          <Property Name="ID_Type" Type="Int32" />
+          <NavigationProperty Name="Type" Relationship="Self.FK_SLIPPER_TYPE" FromRole="Slipper" ToRole="Type" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Box" Relationship="Self.FK_BOX_STOCK" FromRole="Stock" ToRole="Box" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Box" Relationship="Self.FK_BOX_TYPE" FromRole="Type" ToRole="Box" />
+          <NavigationProperty Name="Slipper" Relationship="Self.FK_SLIPPER_TYPE" FromRole="Type" ToRole="Slipper" />
+        </EntityType>
+        <Association Name="FK_BOX_EMPLOYEE">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Box" Type="Self.Box" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Box">
+              <PropertyRef Name="ID_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOX_STOCK">
+          <End Role="Stock" Type="Self.Stock" Multiplicity="0..1" />
+          <End Role="Box" Type="Self.Box" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Box">
+              <PropertyRef Name="ID_Stock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOX_TYPE">
+          <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
+          <End Role="Box" Type="Self.Box" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Box">
+              <PropertyRef Name="ID_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMPLOYEE_MACHINE_TOOL">
+          <End Role="MachineTool" Type="Self.MachineTool" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MachineTool">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="ID_MachineTool" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMPLOYEE_POSITION">
+          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="ID_Position" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PLAN_EMPLOYEE">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Plan" Type="Self.Plan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Plan">
+              <PropertyRef Name="ID_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SLIPPER_TYPE">
+          <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
+          <End Role="Slipper" Type="Self.Slipper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Slipper">
+              <PropertyRef Name="ID_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SlipperProductionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Box" EntityType="Self.Box" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" />
+          <EntitySet Name="MachineTool" EntityType="Self.MachineTool" />
+          <EntitySet Name="Plan" EntityType="Self.Plan" />
+          <EntitySet Name="Position" EntityType="Self.Position" />
+          <EntitySet Name="Slipper" EntityType="Self.Slipper" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Type" EntityType="Self.Type" />
+          <AssociationSet Name="FK_BOX_EMPLOYEE" Association="Self.FK_BOX_EMPLOYEE">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Box" EntitySet="Box" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOX_STOCK" Association="Self.FK_BOX_STOCK">
+            <End Role="Stock" EntitySet="Stock" />
+            <End Role="Box" EntitySet="Box" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOX_TYPE" Association="Self.FK_BOX_TYPE">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Box" EntitySet="Box" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMPLOYEE_MACHINE_TOOL" Association="Self.FK_EMPLOYEE_MACHINE_TOOL">
+            <End Role="MachineTool" EntitySet="MachineTool" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMPLOYEE_POSITION" Association="Self.FK_EMPLOYEE_POSITION">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PLAN_EMPLOYEE" Association="Self.FK_PLAN_EMPLOYEE">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Plan" EntitySet="Plan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SLIPPER_TYPE" Association="Self.FK_SLIPPER_TYPE">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Slipper" EntitySet="Slipper" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище SlipperProductionModelContainer" CdmEntityContainer="SlipperProductionEntities">
+          <EntitySetMapping Name="Box">
+            <EntityTypeMapping TypeName="SlipperProductionModel.Box">
+              <MappingFragment StoreEntitySet="Box">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AmountSlippers" ColumnName="AmountSlippers" />
+                <ScalarProperty Name="ID_Type" ColumnName="ID_Type" />
+                <ScalarProperty Name="ID_Stock" ColumnName="ID_Stock" />
+                <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="SlipperProductionModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="PassportDetails" ColumnName="PassportDetails" />
+                <ScalarProperty Name="ID_MachineTool" ColumnName="ID_MachineTool" />
+                <ScalarProperty Name="ID_Position" ColumnName="ID_Position" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MachineTool">
+            <EntityTypeMapping TypeName="SlipperProductionModel.MachineTool">
+              <MappingFragment StoreEntitySet="MachineTool">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductionYear" ColumnName="ProductionYear" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plan">
+            <EntityTypeMapping TypeName="SlipperProductionModel.Plan">
+              <MappingFragment StoreEntitySet="Plan">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="AmountColorSlippes" ColumnName="AmountColorSlippes" />
+                <ScalarProperty Name="AmountOrdinarySlippes" ColumnName="AmountOrdinarySlippes" />
+                <ScalarProperty Name="DoneOrNot" ColumnName="DoneOrNot" />
+                <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Position">
+            <EntityTypeMapping TypeName="SlipperProductionModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Slipper">
+            <EntityTypeMapping TypeName="SlipperProductionModel.Slipper">
+              <MappingFragment StoreEntitySet="Slipper">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="CostPrice" ColumnName="CostPrice" />
+                <ScalarProperty Name="ID_Type" ColumnName="ID_Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stock">
+            <EntityTypeMapping TypeName="SlipperProductionModel.Stock">
+              <MappingFragment StoreEntitySet="Stock">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SlipperProductionModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Type">
+            <EntityTypeMapping TypeName="SlipperProductionModel.Type">
+              <MappingFragment StoreEntitySet="Type">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
